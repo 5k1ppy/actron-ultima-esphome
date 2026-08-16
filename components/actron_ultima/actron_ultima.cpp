@@ -325,6 +325,17 @@ void ActronUltima::loop() {
       bit(18)
   );
 
+  if (digit1 < 0 || digit2 < 0 || digit3 < 0) {
+    ESP_LOGD(
+        TAG,
+        "Invalid display decode: d1=%d d2=%d d3=%d frame=%s",
+        digit1,
+        digit2,
+        digit3,
+        frame
+    );
+  }
+
   if (
       digit1 >= 0 &&
       digit2 >= 0 &&
@@ -339,8 +350,13 @@ void ActronUltima::loop() {
     if (bit(28))
       value /= 10.0f;
 
-    if (this->setpoint_sensor_ != nullptr)
-      this->setpoint_sensor_->publish_state(value);
+    if (this->setpoint_sensor_ != nullptr) {
+      if (!this->setpoint_sensor_->has_state() ||
+          this->setpoint_sensor_->state != value) {
+    
+        this->setpoint_sensor_->publish_state(value);
+      }
+    }
   }
 }
 
