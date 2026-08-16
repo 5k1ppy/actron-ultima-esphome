@@ -1,0 +1,20 @@
+substitutions:
+  gpio_actron_power: "GPIO4"
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/5k1ppy/actron-ultima-esphome
+      ref: main
+    components:
+      - actron_ultima
+    refresh: 0s
+
+actron_ultima:
+  pin: ${gpio_actron_power}
+
+text_sensor:
+  - platform: actron_ultima
+    bit_string:
+      name: "Actron Raw Frame"
+      id: actron_raw_frame
