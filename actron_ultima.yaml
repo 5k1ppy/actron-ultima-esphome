@@ -11,6 +11,7 @@ external_components:
     refresh: 0s
 
 actron_ultima:
+  id: actron_decoder
   pin: ${gpio_actron_power}
 
 text_sensor:
