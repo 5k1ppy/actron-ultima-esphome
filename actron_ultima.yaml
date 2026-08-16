@@ -13,6 +13,20 @@ output:
   - platform: mcp4725
     id: actron_dac
     address: ${dac_output_address}
+
+number:
+  - platform: template
+    name: "Actron DAC Test"
+    id: actron_dac_test
+    unit_of_measurement: "mV"
+    min_value: 0
+    max_value: 1000
+    step: 1
+    optimistic: true
+
+    set_action:
+      - lambda: |-
+          id(actron_dac).set_level(x / 5000.0);
   
 external_components:
   - source:
