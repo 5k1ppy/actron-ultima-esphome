@@ -362,13 +362,13 @@ void ActronUltima::dump_config() {
 
   ESP_LOGCONFIG(
       TAG,
-      "  Bit threshold: %u us",
+      "  Bit threshold: %lu us",
       static_cast<unsigned long>(BIT_THRESHOLD_US)
   );
 
   ESP_LOGCONFIG(
       TAG,
-      "  Frame gap threshold: %u us",
+      "  Frame gap threshold: %lu us",
       static_cast<unsigned long>(FRAME_GAP_US)
   );
 
