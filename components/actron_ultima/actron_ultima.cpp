@@ -34,10 +34,10 @@ static int decode_digit(
     case 0x4F: return 3;
     case 0x66: return 4;
     case 0x6D: return 5;
-    case 0x7D: return 6;
+    case 0x7C: return 6;
     case 0x07: return 7;
     case 0x7F: return 8;
-    case 0x6F: return 9;
+    case 0x67: return 9;
     default: return -1;
   }
 }
@@ -324,17 +324,6 @@ void ActronUltima::loop() {
       bit(17),
       bit(18)
   );
-
-  if (digit1 < 0 || digit2 < 0 || digit3 < 0) {
-    ESP_LOGD(
-        TAG,
-        "Invalid display decode: d1=%d d2=%d d3=%d frame=%s",
-        digit1,
-        digit2,
-        digit3,
-        frame
-    );
-  }
 
   if (
       digit1 >= 0 &&
