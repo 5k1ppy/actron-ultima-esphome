@@ -7,6 +7,8 @@
 #include "esphome/core/gpio.h"
 #include "esphome/core/hal.h"
 #include "esphome/components/text_sensor/text_sensor.h"
+#include "esphome/components/sensor/sensor.h"
+#include "esphome/components/binary_sensor/binary_sensor.h"
 
 
 namespace esphome {
@@ -66,6 +68,82 @@ class ActronUltima : public Component {
     this->bit_string_sensor_ = sensor;
   }
 
+  void set_setpoint_sensor(sensor::Sensor *sensor) {
+    this->setpoint_sensor_ = sensor;
+  }
+  
+  void set_cool_sensor(binary_sensor::BinarySensor *s) {
+    this->cool_sensor_ = s;
+  }
+  
+  void set_auto_sensor(binary_sensor::BinarySensor *s) {
+    this->auto_sensor_ = s;
+  }
+  
+  void set_run_sensor(binary_sensor::BinarySensor *s) {
+    this->run_sensor_ = s;
+  }
+  
+  void set_timer_sensor(binary_sensor::BinarySensor *s) {
+    this->timer_sensor_ = s;
+  }
+  
+  void set_fan_cont_sensor(binary_sensor::BinarySensor *s) {
+    this->fan_cont_sensor_ = s;
+  }
+  
+  void set_fan_high_sensor(binary_sensor::BinarySensor *s) {
+    this->fan_high_sensor_ = s;
+  }
+  
+  void set_fan_mid_sensor(binary_sensor::BinarySensor *s) {
+    this->fan_mid_sensor_ = s;
+  }
+  
+  void set_fan_low_sensor(binary_sensor::BinarySensor *s) {
+    this->fan_low_sensor_ = s;
+  }
+  
+  void set_heat_sensor(binary_sensor::BinarySensor *s) {
+    this->heat_sensor_ = s;
+  }
+  
+  void set_inside_sensor(binary_sensor::BinarySensor *s) {
+    this->inside_sensor_ = s;
+  }
+  
+  void set_zone1_sensor(binary_sensor::BinarySensor *s) {
+    this->zone1_sensor_ = s;
+  }
+  
+  void set_zone2_sensor(binary_sensor::BinarySensor *s) {
+    this->zone2_sensor_ = s;
+  }
+  
+  void set_zone3_sensor(binary_sensor::BinarySensor *s) {
+    this->zone3_sensor_ = s;
+  }
+  
+  void set_zone4_sensor(binary_sensor::BinarySensor *s) {
+    this->zone4_sensor_ = s;
+  }
+  
+  void set_zone5_sensor(binary_sensor::BinarySensor *s) {
+    this->zone5_sensor_ = s;
+  }
+  
+  void set_zone6_sensor(binary_sensor::BinarySensor *s) {
+    this->zone6_sensor_ = s;
+  }
+  
+  void set_zone7_sensor(binary_sensor::BinarySensor *s) {
+    this->zone7_sensor_ = s;
+  }
+  
+  void set_zone8_sensor(binary_sensor::BinarySensor *s) {
+    this->zone8_sensor_ = s;
+  }
+
 
  protected:
 
@@ -97,6 +175,29 @@ class ActronUltima : public Component {
 
   std::atomic<bool> frame_ready_{false};
 
+  sensor::Sensor *setpoint_sensor_{nullptr};
+  
+  binary_sensor::BinarySensor *cool_sensor_{nullptr};
+  binary_sensor::BinarySensor *auto_sensor_{nullptr};
+  binary_sensor::BinarySensor *run_sensor_{nullptr};
+  binary_sensor::BinarySensor *timer_sensor_{nullptr};
+  
+  binary_sensor::BinarySensor *fan_cont_sensor_{nullptr};
+  binary_sensor::BinarySensor *fan_high_sensor_{nullptr};
+  binary_sensor::BinarySensor *fan_mid_sensor_{nullptr};
+  binary_sensor::BinarySensor *fan_low_sensor_{nullptr};
+  
+  binary_sensor::BinarySensor *heat_sensor_{nullptr};
+  binary_sensor::BinarySensor *inside_sensor_{nullptr};
+  
+  binary_sensor::BinarySensor *zone1_sensor_{nullptr};
+  binary_sensor::BinarySensor *zone2_sensor_{nullptr};
+  binary_sensor::BinarySensor *zone3_sensor_{nullptr};
+  binary_sensor::BinarySensor *zone4_sensor_{nullptr};
+  binary_sensor::BinarySensor *zone5_sensor_{nullptr};
+  binary_sensor::BinarySensor *zone6_sensor_{nullptr};
+  binary_sensor::BinarySensor *zone7_sensor_{nullptr};
+  binary_sensor::BinarySensor *zone8_sensor_{nullptr};
 };
 
 }  // namespace actron_ultima
