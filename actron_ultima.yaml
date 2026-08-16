@@ -16,6 +16,7 @@ actron_ultima:
 
 text_sensor:
   - platform: actron_ultima
+    actron_ultima_id: actron_decoder
     bit_string:
       name: "Actron Raw Frame"
       id: actron_raw_frame
