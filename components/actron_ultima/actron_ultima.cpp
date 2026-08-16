@@ -9,6 +9,38 @@ namespace actron_ultima {
 
 static const char *const TAG = "actron_ultima";
 
+static int decode_digit(
+    bool a,
+    bool b,
+    bool c,
+    bool d,
+    bool e,
+    bool f,
+    bool g) {
+
+  uint8_t mask =
+      (a << 0) |
+      (b << 1) |
+      (c << 2) |
+      (d << 3) |
+      (e << 4) |
+      (f << 5) |
+      (g << 6);
+
+  switch (mask) {
+    case 0x3F: return 0;
+    case 0x06: return 1;
+    case 0x5B: return 2;
+    case 0x4F: return 3;
+    case 0x66: return 4;
+    case 0x6D: return 5;
+    case 0x7D: return 6;
+    case 0x07: return 7;
+    case 0x7F: return 8;
+    case 0x6F: return 9;
+    default: return -1;
+  }
+}
 
 // ============================================================
 // GPIO interrupt
@@ -207,12 +239,115 @@ void ActronUltima::loop() {
   // Publish to Home Assistant / ESPHome API.
   if (this->bit_string_sensor_ != nullptr) {
 
-    this->bit_string_sensor_->publish_state(
-        frame
-    );
+    this->bit_string_sensor_->publish_state(frame);
+  }
+
+  auto bit = [bits](uint8_t n) -> bool {
+   return ((bits >> n) & 1ULL) != 0;
+  };
+
+  if (this->cool_sensor_ != nullptr)
+    this->cool_sensor_->publish_state(bit(0));
+
+  if (this->auto_sensor_ != nullptr)
+    this->auto_sensor_->publish_state(bit(1));
+
+  if (this->run_sensor_ != nullptr)
+    this->run_sensor_->publish_state(bit(3));
+
+  if (this->timer_sensor_ != nullptr)
+    this->timer_sensor_->publish_state(bit(7));
+
+  if (this->fan_cont_sensor_ != nullptr)
+    this->fan_cont_sensor_->publish_state(bit(8));
+
+  if (this->fan_high_sensor_ != nullptr)
+    this->fan_high_sensor_->publish_state(bit(9));
+
+  if (this->fan_mid_sensor_ != nullptr)
+    this->fan_mid_sensor_->publish_state(bit(10));
+
+  if (this->fan_low_sensor_ != nullptr)
+    this->fan_low_sensor_->publish_state(bit(11));
+
+  if (this->heat_sensor_ != nullptr)
+    this->heat_sensor_->publish_state(bit(15));
+
+  if (this->inside_sensor_ != nullptr)
+    this->inside_sensor_->publish_state(bit(33));
+
+  if (this->zone1_sensor_ != nullptr)
+    this->zone1_sensor_->publish_state(bit(21));
+
+  if (this->zone2_sensor_ != nullptr)
+    this->zone2_sensor_->publish_state(bit(14));
+
+  if (this->zone3_sensor_ != nullptr)
+    this->zone3_sensor_->publish_state(bit(12));
+
+  if (this->zone4_sensor_ != nullptr)
+    this->zone4_sensor_->publish_state(bit(13));
+
+  if (this->zone5_sensor_ != nullptr)
+    this->zone5_sensor_->publish_state(!bit(2));
+
+  if (this->zone6_sensor_ != nullptr)
+    this->zone6_sensor_->publish_state(!bit(6));
+
+  if (this->zone7_sensor_ != nullptr)
+    this->zone7_sensor_->publish_state(!bit(5));
+
+  if (this->zone8_sensor_ != nullptr)
+    this->zone8_sensor_->publish_state(!bit(4));
+
+  const int digit1 = decode_digit(
+      bit(39),
+      bit(35),
+      bit(34),
+      bit(32),
+      bit(36),
+      bit(38),
+      bit(37)
+  );
+
+  const int digit2 = decode_digit(
+      bit(31),
+      bit(24),
+      bit(29),
+      bit(30),
+      bit(27),
+      bit(25),
+      bit(26)
+  );
+
+  const int digit3 = decode_digit(
+      bit(20),
+      bit(19),
+      bit(16),
+      bit(23),
+      bit(22),
+      bit(17),
+      bit(18)
+  );
+
+  if (
+      digit1 >= 0 &&
+      digit2 >= 0 &&
+      digit3 >= 0
+  ) {
+
+    float value =
+        digit1 * 100 +
+        digit2 * 10 +
+        digit3;
+
+    if (bit(28))
+      value /= 10.0f;
+
+    if (this->setpoint_sensor_ != nullptr)
+      this->setpoint_sensor_->publish_state(value);
   }
 }
-
 
 // ============================================================
 // Configuration logging
