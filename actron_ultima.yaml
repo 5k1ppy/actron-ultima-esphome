@@ -8,6 +8,11 @@ i2c:
   sda: ${gpio_i2c_sda}
   scl: ${gpio_i2c_scl}
   scan: true
+
+output:
+  - platform: mcp4725
+    id: actron_dac
+    address: ${dac_output_address}
   
 external_components:
   - source:
