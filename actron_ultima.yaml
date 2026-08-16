@@ -4,6 +4,11 @@ substitutions:
   gpio_i2c_scl: "GPIO3"
   dac_output_address: "0x60"
 
+i2c:
+  sda: ${gpio_i2c_sda}
+  scl: ${gpio_i2c_scl}
+  scan: true
+  
 external_components:
   - source:
       type: git
