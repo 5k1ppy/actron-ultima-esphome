@@ -5,6 +5,7 @@ from esphome.components import sensor
 
 from . import ActronUltima
 
+DEPENDENCIES = ["actron_ultima"]
 
 CONF_ACTRON_ULTIMA_ID = "actron_ultima_id"
 CONF_SETPOINT_TEMP = "setpoint_temp"
