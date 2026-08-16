@@ -1,37 +1,29 @@
-from typing import Any
-
 import esphome.codegen as cg
 import esphome.config_validation as cv
 
 from esphome.components import text_sensor
+from esphome.const import CONF_ID
 
-from . import ActronUltima, CONF_ACTRON_ULTIMA_ID
+from . import ActronUltima
 
-
-DEPENDENCIES = ["actron_ultima"]
 
 CONF_BIT_STRING = "bit_string"
 
 CONFIG_SCHEMA = cv.Schema(
     {
-        cv.GenerateID(CONF_ACTRON_ULTIMA_ID): cv.use_id(ActronUltima),
+        cv.GenerateID(): cv.use_id(ActronUltima),
 
-        cv.Optional(CONF_BIT_STRING):
+        cv.Required(CONF_BIT_STRING):
             text_sensor.text_sensor_schema(),
     }
 )
 
 
-async def to_code(config: dict[str, Any]) -> None:
-    parent = await cg.get_variable(
-        config[CONF_ACTRON_ULTIMA_ID]
+async def to_code(config):
+    parent = await cg.get_variable(config[CONF_ID])
+
+    sens = await text_sensor.new_text_sensor(
+        config[CONF_BIT_STRING]
     )
 
-    if CONF_BIT_STRING in config:
-        sens = await text_sensor.new_text_sensor(
-            config[CONF_BIT_STRING]
-        )
-
-        cg.add(
-            parent.set_bit_string_sensor(sens)
-        )
+    cg.add(parent.set_bit_string_sensor(sens))
