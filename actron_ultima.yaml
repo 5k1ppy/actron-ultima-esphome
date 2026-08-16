@@ -1,5 +1,8 @@
 substitutions:
   gpio_actron_power: "GPIO4"
+  gpio_i2c_sda: "GPIO10"
+  gpio_i2c_scl: "GPIO3"
+  dac_output_address: "0x60"
 
 external_components:
   - source:
