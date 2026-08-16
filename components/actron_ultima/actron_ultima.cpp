@@ -228,20 +228,15 @@ void ActronUltima::loop() {
   frame[40] = '\0';
 
 
-  // Print EVERY complete frame to ESPHome logs.
-  ESP_LOGD(
-      TAG,
-      "Frame: %s",
-      frame
-  );
-
-
-  // Publish to Home Assistant / ESPHome API.
   if (this->bit_string_sensor_ != nullptr) {
+    if (!this->bit_string_sensor_->has_state() ||
+        this->bit_string_sensor_->state != frame) {
 
-    this->bit_string_sensor_->publish_state(frame);
+      ESP_LOGD(TAG, "Frame changed: %s", frame);
+      this->bit_string_sensor_->publish_state(frame);
+    }
   }
-
+    
   auto bit = [bits](uint8_t n) -> bool {
    return ((bits >> n) & 1ULL) != 0;
   };
